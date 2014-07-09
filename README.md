@@ -1,7 +1,7 @@
 Transcribe
 ========
 
-Transcribe is a tool used for transcribing digitised paper documents. See more at [http://lukezak.blogspot.com.au/] http://lukezak.blogspot.com.au/
+Transcribe is a tool used for transcribing digitised paper documents. See more at http://lukezak.blogspot.com.au/
 
 Installation
 -----
