@@ -18,7 +18,7 @@ Installation
 5. Copy Tesseract open source OCR engine over to the top level directory or where specified in the web.config.
 6. Create '_upload' and '_pdf' folder in the 'Content' directory or where specified in the web.config. Assign write permissions to these folders.
 7. Launch the website and register a user to seed the Administrator account.
-8. Log in as Administrator to upload documents to be transcribed. To upload documents select the 'Hello Admin' button in the top right hand corner, click the link to the 'Administration area' and select the 'Upload' button. Follow the wizard to upload a document.
+8. Log in as Administrator (admin@transcribe.com) to upload documents to be transcribed. To upload documents select the 'Hello Admin' button in the top right hand corner, click the link to the 'Administration area' and select the 'Upload' button. Follow the wizard to upload a document.
 
 Author
 -----
