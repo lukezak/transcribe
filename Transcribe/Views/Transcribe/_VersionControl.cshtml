@@ -1,0 +1,8 @@
+﻿@model Transcribe.Models.CorrectionsViewModel
+
+@foreach (var item in Model.Versions)
+{
+    <p><a href="#" data-params="{'RecordId':'@item.RecordId', 'oldValue':'@item.transcription.Replace("'", "\\'")'}" id="correction-@item.VersionId" data-type="textarea" data-pk="@item.VersionId" data-url="/Transcribe/Update">@item.transcription</a></p>
+}
+
+@Html.TextBoxFor(m => m.email, new { @class = "hide" })

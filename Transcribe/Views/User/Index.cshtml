@@ -1,0 +1,12 @@
+﻿@model Transcribe.Models.UserViewModel
+@{
+    ViewBag.Title = "User activity";
+}
+
+<h2>@ViewBag.Title</h2>
+<h3>@Model.userid <span>@Html.Action("GetHearts", "User", new { uniqueUserId = @Model.uniqueUserId })</span></h3>
+<hr />
+
+@Html.Action("GetCompleted", "User", new { uniqueUserId = @Model.uniqueUserId })
+
+

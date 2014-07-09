@@ -1,0 +1,51 @@
+﻿@using Transcribe.Models;
+@using Microsoft.AspNet.Identity;
+@{
+    ViewBag.Title = "Manage Account";
+}
+
+<div class="row">
+    <div class="col-md-8">
+        <h2>@ViewBag.Title</h2>
+
+        <p class="text-success">@ViewBag.StatusMessage</p>
+        <p>You're logged in as <strong>@User.DisplayName()</strong> (@User.Identity.GetUserName()). @Html.Raw(ViewBag.AdminOnly)</p>
+    </div>
+    <div class="col-md-4 text-right">
+        @Html.Action("Hearts", "Account")
+    </div>
+
+</div>
+<div class="row">
+    <div class="col-md-8">
+        
+        @if (ViewBag.HasLocalPassword)
+        {
+            @Html.Partial("_ChangePasswordPartial")
+        }
+        else
+        {
+            @Html.Partial("_SetPasswordPartial")
+        }
+    </div>
+    <div class="col-md-4">
+        <section id="externalLogins">
+            @Html.Action("RemoveAccountList")
+            @Html.Partial("_ExternalLoginsListPartial", new ExternalLoginListViewModel { Action = "LinkLogin", ReturnUrl = ViewBag.ReturnUrl })
+        </section>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-4"> 
+        @Html.Action("Completed", "Account")
+    </div>
+    <div class="col-md-4">
+        @Html.Action("Favorites", "Account")
+    </div>
+    <div class="col-md-4">
+        @Html.Action("Activity", "Account")
+    </div>
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

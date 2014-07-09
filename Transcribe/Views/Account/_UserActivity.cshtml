@@ -1,0 +1,31 @@
+﻿@model Transcribe.Models.ActivityViewModel
+@helper Truncate(string input, int length)
+{
+    if (input.Length <= length)
+    {
+        @input
+    }
+    else
+    {
+        @input.Substring(0, length)<text>...</text>
+    }
+}
+
+<h3>Recent activity</h3>
+<hr />
+@if (Model.Activities.Count() > 0)
+{
+    foreach (var item in Model.Activities)
+    {
+        <p>
+            <a href="/User/Index/@item.userId">@item.userId</a><br />
+            <span class="old-line">@Truncate(item.oldline, 32)</span> updated to <span class="new-line">@Truncate(item.newline, 32)</span><br />
+            <span class="glyphicon glyphicon-time"></span> @item.commit.ToString("yyyy-MM-dd HH:mm:ss") <a href="/Transcribe/Index/@item.RecordId">more ></a>
+        </p>
+    }
+}
+else
+{
+    <p>No recent activity</p>
+}
+

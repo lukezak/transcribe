@@ -1,0 +1,8 @@
+﻿@model Transcribe.Models.ControlsViewModel
+
+@using (Ajax.BeginForm("InProgress", "Transcribe", new AjaxOptions { UpdateTargetId = "inprogress", OnSuccess = "UpdateProgressBtn()" }, new { role = "form" }))
+{
+    @Html.AntiForgeryToken()
+    <button id="progressBtn" data-toggle="tooltip" data-placement="top" title="In progress" type="submit" class="btn btn-warning"><span class="glyphicon glyphicon-pencil"></span></button>
+    @Html.HiddenFor(m => m.id)
+}

@@ -1,0 +1,75 @@
+﻿@model PagedList.IPagedList<Transcribe.Models.RecordModels>
+@using PagedList.Mvc;
+@helper Truncate(string input, int length)
+{
+    if (input.Length <= length)
+    {
+        @input
+    }
+    else
+    {
+        @input.Substring(0, length)<text>...</text>
+    }
+}
+@{
+    ViewBag.Title = "Browse";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<div class="row">
+    <div class="col-md-12">
+
+        @using (Html.BeginForm("Index", "Browse", FormMethod.Get, new { @class = "form-inline list-form" }))
+        {
+            <div class="well">
+
+                <div class="form-group">
+                    <label for="SearchString">Filter by title</label>
+                    @Html.TextBox("SearchString", ViewBag.CurrentFilter as string, new { @class = "form-control" })
+                    <input type="submit" class="btn btn-primary" value="Search" />
+                    <a href="/Browse?SearchString=" class="btn btn-default">Reset</a>
+                </div>
+                <div class="form-group pull-right">
+
+                    <b>Sort by</b>
+                    @Html.ActionLink("Title", "Index", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter }, new { @class = "btn btn-default" })
+                    @Html.ActionLink("Date added", "Index", new { sortOrder = ViewBag.DateSortParm, currentFilter = ViewBag.CurrentFilter }, new { @class = "btn btn-default" })
+
+                </div>
+            </div>
+        }
+
+        @if (Model.Count > 0)
+        {
+            foreach (var item in Model)
+            {
+                <div class="col-xs-18 col-sm-6 col-md-3">
+                    <div class="thumbnail">
+                        <a href="@Url.Action("Index", "Transcribe", new { id = @item.RecordId })">
+                            <img src="~/Content/_upload/@item.image?w=240&amp;h=240&amp;mode=crop" alt="" class="img-responsive" />
+                            <p class="@item.difficulty">@item.difficulty</p>
+                        </a>
+                        <div class="caption">
+                            <p>
+                                <a href="@Url.Action("Index", "Transcribe", new { id = @item.RecordId })">@Truncate(@item.title, 25)</a><br />
+                                <em>@item.startdate &ndash; @item.enddate</em>
+                            </p>
+                            <p>@Html.Action("Totals", "Browse", new { RecordTitle = @item.title })</p>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+        else
+        {
+            <p>No results have been found.</p>
+        }
+        <div class="clearfix"></div>
+
+        Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+        @Html.PagedListPager(Model, page => Url.Action("Index",
+    new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+    </div>
+</div>

@@ -1,0 +1,55 @@
+﻿@{
+    ViewBag.Title = "Administration";
+}
+
+<h2>@ViewBag.Title</h2>
+<div class="row">
+    <div class="col-md-12">
+        <div class="col-md-6 col-sm-6">
+            <div class="dashboard-tile detail tile-blue">
+                <div class="content">
+                    <h1 class="text-left">@Html.ActionLink("Upload", "Upload")</h1>
+                    <p>Upload records, documents and data</p>
+                </div>
+                <div class="icon">
+                    <span class="glyphicon glyphicon-upload"></span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-sm-6">
+            <div class="dashboard-tile detail tile-turquoise">
+                <div class="content">
+                    <h1 class="text-left">@Html.ActionLink("Edit", "List")</h1>
+                    <p>Read, update and delete data</p>
+                </div>
+                <div class="icon">
+                    <span class="glyphicon glyphicon-edit"></span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-sm-6">
+            <div class="dashboard-tile detail tile-orange">
+                <div class="content">
+                    <h1 class="text-left">@Html.ActionLink("Reports", "Report")</h1>
+                    <p>User submitted issue reports</p>
+                </div>
+                <div class="icon">
+                    <span class="glyphicon glyphicon-ban-circle"></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-sm-6">
+            <div class="dashboard-tile detail tile-red">
+                <div class="content">
+                    <h1 class="text-left">@Html.ActionLink("Export", "Export")</h1>
+                    <p>Export completed transcriptions</p>
+                </div>
+                <div class="icon">
+                    <span class="glyphicon glyphicon-export"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

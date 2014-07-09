@@ -1,0 +1,16 @@
+﻿@model IEnumerable<Transcribe.Models.CompletedViewModel>
+
+<h4>Completed <span class="badge">@Model.Count()</span></h4>
+<div id="user-completed">
+    @if (Model.Count() > 0)
+    {
+        foreach (var item in Model)
+        {
+            <p><a href="/Transcribe/Index/@item.Completed.RecordId">@item.Records.title</a></p>
+        }
+    }
+    else
+    {
+        <p>This user has no completed transcriptions</p>
+    }
+</div>

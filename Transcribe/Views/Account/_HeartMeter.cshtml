@@ -1,0 +1,73 @@
+﻿@model Transcribe.Models.HeartsViewModel
+
+<h2>Heart-O-Meter</h2>
+<div>
+@if (Model.hearts < 2 )
+{
+    <p>Complete a few transcriptions to earn our love!</p>
+}
+@if (Model.hearts >= 2 && Model.hearts < 10)
+{
+    <span class="glyphicon glyphicon-heart-empty icon-large icon-red"></span>
+}
+@if (Model.hearts >= 10 && Model.hearts < 15)
+{
+    <span class="glyphicon glyphicon-heart icon-large icon-red"></span>
+}
+@if (Model.hearts >= 15 && Model.hearts < 20)
+{
+    <span class="glyphicon glyphicon-heart icon-large icon-red"></span>
+    <span class="glyphicon glyphicon-heart-empty icon-large icon-red"></span>
+}
+@if (Model.hearts >= 20 && Model.hearts < 25)
+{
+    <span class="glyphicon glyphicon-heart icon-large icon-red"></span>
+    <span class="glyphicon glyphicon-heart icon-large icon-red"></span>
+}
+@if (Model.hearts >= 25 && Model.hearts < 30)
+{
+    <span class="glyphicon glyphicon-heart icon-large icon-red"></span>
+    <span class="glyphicon glyphicon-heart icon-large icon-red"></span>
+    <span class="glyphicon glyphicon-heart-empty icon-large icon-red"></span>
+}
+@if (Model.hearts >= 30 && Model.hearts < 35)
+{
+    <span class="glyphicon glyphicon-heart icon-large icon-red"></span>
+    <span class="glyphicon glyphicon-heart icon-large icon-red"></span>
+    <span class="glyphicon glyphicon-heart icon-large icon-red"></span>
+    
+}
+@if (Model.hearts >= 35 && Model.hearts < 40)
+{
+    <span class="glyphicon glyphicon-heart icon-large icon-red"></span>
+    <span class="glyphicon glyphicon-heart icon-large icon-red"></span>
+    <span class="glyphicon glyphicon-heart icon-large icon-red"></span>
+    <span class="glyphicon glyphicon-heart-empty icon-large icon-red"></span>
+    
+}
+@if (Model.hearts >= 40 && Model.hearts < 45)
+{
+    <span class="glyphicon glyphicon-heart icon-large icon-red"></span>
+    <span class="glyphicon glyphicon-heart icon-large icon-red"></span>
+    <span class="glyphicon glyphicon-heart icon-large icon-red"></span>
+    <span class="glyphicon glyphicon-heart icon-large icon-red"></span>
+    
+}
+@if (Model.hearts >= 45 && Model.hearts < 50)
+{
+    <span class="glyphicon glyphicon-heart icon-large icon-red"></span>
+    <span class="glyphicon glyphicon-heart icon-large icon-red"></span>
+    <span class="glyphicon glyphicon-heart icon-large icon-red"></span>
+    <span class="glyphicon glyphicon-heart icon-large icon-red"></span>
+    <span class="glyphicon glyphicon-heart-empty icon-large icon-red"></span>
+    
+}
+@if (Model.hearts > 50)
+{
+    <span class="glyphicon glyphicon-heart icon-large icon-red"></span>
+    <span class="glyphicon glyphicon-heart icon-large icon-red"></span>
+    <span class="glyphicon glyphicon-heart icon-large icon-red"></span>
+    <span class="glyphicon glyphicon-heart icon-large icon-red"></span>
+    <span class="glyphicon glyphicon-heart icon-large icon-red"></span>
+}
+</div>

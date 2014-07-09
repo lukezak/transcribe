@@ -1,0 +1,103 @@
+﻿@model PagedList.IPagedList<Transcribe.Models.LeaderBoardViewModel>
+@using PagedList.Mvc;
+@{
+    ViewBag.Title = "Leaderboard";
+}
+
+<h2>@ViewBag.Title</h2>
+<p>The leader board tracks the top contributors to the site.</p>
+
+@if (Model.Count() > 0)
+{
+    <table class="table">
+        <tr>
+            <th>Transcriber</th>
+            <th>Completed</th>
+            <th>Love</th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td><a href="/User/Index/@item.userid">@item.userid</a></td>
+                <td>@item.total</td>
+                <td>
+                    @if (item.total >= 2 && item.total < 10)
+                    {
+                        <span class="glyphicon glyphicon-heart-empty icon-red"></span>
+                    }
+                    @if (item.total >= 10 && item.total < 15)
+                    {
+                        <span class="glyphicon glyphicon-heart icon-red"></span>
+                    }
+                    @if (item.total >= 15 && item.total < 20)
+                    {
+                        <span class="glyphicon glyphicon-heart icon-red"></span>
+                        <span class="glyphicon glyphicon-heart-empty icon-red"></span>
+                    }
+                    @if (item.total >= 20 && item.total < 25)
+                    {
+                        <span class="glyphicon glyphicon-heart icon-red"></span>
+                        <span class="glyphicon glyphicon-heart icon-red"></span>
+                    }
+                    @if (item.total >= 25 && item.total < 30)
+                    {
+                        <span class="glyphicon glyphicon-heart icon-red"></span>
+                        <span class="glyphicon glyphicon-heart icon-red"></span>
+                        <span class="glyphicon glyphicon-heart-empty icon-red"></span>
+                    }
+                    @if (item.total >= 30 && item.total < 35)
+                    {
+                        <span class="glyphicon glyphicon-heart icon-red"></span>
+                        <span class="glyphicon glyphicon-heart icon-red"></span>
+                        <span class="glyphicon glyphicon-heart icon-red"></span>
+
+                    }
+                    @if (item.total >= 35 && item.total < 40)
+                    {
+                        <span class="glyphicon glyphicon-heart icon-red"></span>
+                        <span class="glyphicon glyphicon-heart icon-red"></span>
+                        <span class="glyphicon glyphicon-heart icon-red"></span>
+                        <span class="glyphicon glyphicon-heart-empty icon-red"></span>
+
+                    }
+                    @if (item.total >= 40 && item.total < 45)
+                    {
+                        <span class="glyphicon glyphicon-heart icon-red"></span>
+                        <span class="glyphicon glyphicon-heart icon-red"></span>
+                        <span class="glyphicon glyphicon-heart icon-red"></span>
+                        <span class="glyphicon glyphicon-heart icon-red"></span>
+
+                    }
+                    @if (item.total >= 45 && item.total < 50)
+                    {
+                        <span class="glyphicon glyphicon-heart icon-red"></span>
+                        <span class="glyphicon glyphicon-heart icon-red"></span>
+                        <span class="glyphicon glyphicon-heart icon-red"></span>
+                        <span class="glyphicon glyphicon-heart icon-red"></span>
+                        <span class="glyphicon glyphicon-heart-empty icon-red"></span>
+
+                    }
+                    @if (item.total > 50)
+                    {
+                        <span class="glyphicon glyphicon-heart icon-red"></span>
+                        <span class="glyphicon glyphicon-heart icon-red"></span>
+                        <span class="glyphicon glyphicon-heart icon-red"></span>
+                        <span class="glyphicon glyphicon-heart icon-red"></span>
+                        <span class="glyphicon glyphicon-heart icon-red"></span>
+                    }
+
+
+                </td>
+            </tr>
+        }
+    </table>
+}
+else
+{
+    <p>No transcriptions have been completed</p>
+}
+<div class="clearfix"></div>
+
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page }))

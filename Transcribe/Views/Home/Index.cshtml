@@ -1,0 +1,130 @@
+﻿@model Transcribe.Models.HomeViewModel
+@helper Truncate(string input, int length)
+{
+    if (input.Length <= length)
+    {
+        @input
+    }
+    else
+    {
+        @input.Substring(0, length)<text>...</text>
+    }
+}
+@{
+    ViewBag.Title = "Home Page";
+}
+<h1>Transcribe</h1>
+<p><span class="lead">By contributing to transcriptions, you have helped 'My Organisation' make 'items' more accessible.</span> Transcriptions help in searching for the 'item' as well as in reading and understanding the 'item'. The work you do transcribing a handwritten or typed document will help the next person discover and use that 'item'.</p>
+<p><span class="lead">You can <a href="/Account/Register">register</a> or just select a record and start transcribing.</span> If you are a registered user, the more transcriptions you complete, the more appreciation you receive. You can also favourite records and check out what you have done in your own profile page.</p>
+<div class="row">
+    <div class="col-md-9">
+        @if (Model.Records.Count() > 0)
+        {
+            <div id="custom_carousel" class="carousel slide" data-ride="carousel" data-interval="5000">
+                <!-- Wrapper for slides -->
+                <div class="carousel-inner">
+                    @foreach (var item in Model.Records)
+                    {
+                        <div class="item">
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <a href="@Url.Action("Index", "Transcribe", new { id = @item.RecordId })">
+                                            <img src="~/Content/_upload/@item.image?w=350&amp;h=250&amp;mode=crop" alt="" class="img-responsive" />
+                                        </a>
+                                    </div>
+                                    <div class="col-md-9">
+                                        <h2>@Truncate(@item.title, 30)</h2>
+                                        <p>
+                                            Date range: <b>@item.startdate &ndash; @item.enddate</b><br />
+                                            Difficulty: <b>@item.difficulty</b><br />
+                                            Status: <b>@item.status</b>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    <!-- End Item -->
+                </div>
+                <!-- End Carousel Inner -->
+                <div class="controls">
+                    <ul class="nav">
+                        @foreach (var item in Model.Records.Select((value, i) => new { i, value }))
+                        {
+                            <li data-target="#custom_carousel" class="" data-slide-to="@item.i"><a href="#"><img src="~/Content/_upload/@item.value.image?w=75&amp;h=75&amp;mode=crop" alt=""><small>@Truncate(@item.value.title, 30)</small></a></li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        <!-- End Carousel -->
+        }
+        else
+        {
+            <h2>Nothing to display</h2>
+        }
+    </div>
+    <div class="col-md-3 board">
+        @Html.Action("Board", "Home")
+    </div>
+</div>
+
+<div id="widgets">
+    <div class="row">
+        <div class="col-md-3">
+            <div class="tile-progress tile-blue">
+                <div class="tile-header">
+                    <h3>Progress</h3>
+                </div>
+                <div class="tile-progressbar">
+                    <span data-fill="@Model.percentage%" style="width: @Model.percentage%;"></span>
+                </div>
+                <div class="tile-footer">
+                    <h4>
+                        <span class="pct-counter">@Model.percentage</span>%
+                    </h4>
+                    <span><b>@Model.progress</b> of <b>@Model.totalRecords</b> transcriptions complete.</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="tile-progress tile-orange">
+                <div class="tile-header">
+                    <h3>Updates</h3>
+                </div>
+                <div class="tile-progressbar">
+                    <span data-fill="0%" style="width: 0%;"></span>
+                </div>
+                <div class="tile-footer">
+                    <h4>
+                        <span class="pct-counter">@Model.updates</span>
+                    </h4>
+                    <span>Total number of text updates.</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 well well-sm">
+            <h3 class="text-center">Recent activity</h3>
+                @if (Model.Activities.Count() > 0)
+                {
+                    foreach (var item in Model.Activities)
+                    {
+                        <p>
+                            <a href="/User/Index/@item.userId">@item.userId</a><br />
+                            <span class="old-line">@Truncate(item.oldline, 32)</span> updated to <span class="new-line">@Truncate(item.newline, 32)</span><br />
+                            <span class="glyphicon glyphicon-time"></span> @item.commit.ToString("yyyy-MM-dd HH:mm:ss") <a href="Transcribe/Index/@item.RecordId">more ></a>
+                        </p>
+                    }
+                }
+                else
+                {
+                    <p class="text-center">No recent activity</p>
+                }
+
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/home")
+}

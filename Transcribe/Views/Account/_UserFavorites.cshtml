@@ -1,0 +1,17 @@
+﻿@model Transcribe.Models.FavoriteViewModel
+
+<h3>Favorites <span class="badge">@Model.Favorites.Count()</span></h3>
+<hr />
+<div id="favs">
+    @if (Model.Favorites.Count() > 0)
+    {
+        foreach (var item in Model.Favorites)
+        {
+            <p><a href="/Transcribe/Index/@item.RecordId">@item.title</a></p>
+        }
+    }
+    else
+    {
+        <p>You have no favorites</p>
+    }
+</div>

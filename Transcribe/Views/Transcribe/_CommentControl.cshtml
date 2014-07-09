@@ -1,0 +1,18 @@
+﻿@model Transcribe.Models.CommentViewModel
+
+@if (Model.Comments.Count() > 0)
+{
+    foreach (var item in Model.Comments)
+    {
+
+        <li class="list-group-item">
+            <p><a href="/User/Index/@item.userId">@item.userId</a></p>
+            @item.comment<br />
+            <span class="glyphicon glyphicon-time"></span> @item.commit.ToString("yyyy-MM-dd HH:mm:ss")
+        </li>
+    }
+}
+else
+{
+    <li class="list-group-item">No comments yet.</li>
+}

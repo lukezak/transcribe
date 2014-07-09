@@ -1,0 +1,8 @@
+﻿@model Transcribe.Models.ControlsViewModel
+
+@using (Ajax.BeginForm("Complete", "Transcribe", new AjaxOptions { Confirm = "Are you sure you want to mark this transcription as complete?", UpdateTargetId = "complete", OnSuccess = "UpdateCompleteBtn()" }, new { role = "form" }))
+{
+    @Html.AntiForgeryToken()
+    <button id="completeBtn" data-toggle="tooltip" data-placement="top" title="Complete" type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-ok"></span></button>
+    @Html.HiddenFor(m => m.id)
+}

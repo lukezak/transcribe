@@ -1,0 +1,19 @@
+﻿@model Transcribe.Models.CorrectionsViewModel
+
+<div id="poor-ocr" class="alert alert-warning alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>Due to poor <b>OCR</b> results for <b>handwritten</b> documents a freetext box has been provided for transcription.</div>
+
+@using (Ajax.BeginForm("Update", "Transcribe", new AjaxOptions { UpdateTargetId = "transcription", OnSuccess = "UpdateProgressBtn()" }, new { @class = "form-inline" }))
+{
+    foreach (var item in Model.Versions)
+    {
+        <textarea id="value" name="value" class="form-control">@item.transcription</textarea>
+        <input id="pk" name="pk" type="hidden" value="@item.VersionId" />
+        <input id="oldValue" name="oldValue" type="hidden" value="@item.transcription" />
+    }
+    <div class="action-btn">
+        <input id="saveBtn" type="submit" class="btn btn-danger" data-loading-text="Saving..." value="Save" />
+    </div>
+    @Html.TextBoxFor(m => m.email, new { @class = "hide" })
+    @Html.HiddenFor(m => m.RecordId)
+}
+

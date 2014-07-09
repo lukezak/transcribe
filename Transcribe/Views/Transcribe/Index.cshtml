@@ -1,0 +1,172 @@
+﻿@model Transcribe.Models.CorrectionsViewModel
+@{
+    ViewBag.Title = "Transcribe";
+    Layout = "~/Views/Shared/_LayoutFluid.cshtml";
+}
+
+
+<h2><span class="@Model.diffBtn"></span> @Model.title <small>@Model.startdate &ndash; @Model.enddate</small></h2>
+<h4>@Model.pageno of @Model.totalpages <small><a href="@Model.sysid" title="Identifier" target="_blank">@Model.sysid</a></small></h4>
+
+
+<div class="col-lg-5 col-md-5 col-sm-5">
+    <div class="control">
+        <ul class="list-inline">
+            <li><button data-toggle="tooltip" data-placement="top" title="Zoom in" type="button" class="t-zoom-in btn btn-default"><span class="glyphicon glyphicon-plus"></span></button></li>
+            <li><button data-toggle="tooltip" data-placement="top" title="Zoom out" type="button" class="t-zoom-out btn btn-default"><span class="glyphicon glyphicon-minus"></span></button></li>
+            <li><button data-toggle="tooltip" data-placement="top" title="Reset" type="button" class="t-reset btn btn-default"><span class="glyphicon glyphicon-refresh"></span></button></li>
+            <li><a id="prev" href="/Transcribe/Index/@Model.prevpage" data-toggle="tooltip" data-placement="top" title="Previous" class="@Model.prevDisabled btn btn-default"><span class="glyphicon glyphicon-backward"></span></a></li>
+            <li><a id="next-un" href="/Transcribe/Index/@Model.nextUntranscribed" data-toggle="tooltip" data-placement="top" title="Next untranscribed" class="@Model.nextUnDisabled btn btn-default"><span class="glyphicon glyphicon-fast-forward"></span></a></li>
+            <li><a id="next" href="/Transcribe/Index/@Model.nextpage" data-toggle="tooltip" data-placement="top" title="Next" class="@Model.nextDisabled btn btn-default"><span class="glyphicon glyphicon-forward"></span></a></li>
+        </ul>
+    </div>
+</div>
+<div class="col-lg-7 col-md-7 col-sm-7">
+    <ul class="list-inline text-right">
+        <li><span id="statusBtn" class="btn @Model.statusBtn">@Model.status</span></li>
+        <li><button data-toggle="modal" data-target="#HelpModal" rel="tooltip" title="Help" type="button" class="btn btn-default"><span class="glyphicon glyphicon-info-sign"></span></button></li>
+        <li><button data-toggle="modal" data-target="#ReportModal" rel="tooltip" title="Report" type="button" class="btn btn-default"><span class="glyphicon glyphicon-ban-circle"></span></button></li>
+        <li>
+            @using (Html.BeginForm("PDF", "Transcribe", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken();
+                <button data-toggle="tooltip" data-placement="top" title="PDF" class="btn btn-default"><span class="glyphicon glyphicon-file"></span></button>
+                @Html.HiddenFor(m => m.RecordId)
+            }
+        </li>
+        <li id="favourite">
+            @Html.Action("FavoriteControl", "Transcribe", new { RecordId = @Model.RecordId })
+        </li>
+        @Html.Action("Controls", "Transcribe", new { id = @Model.RecordId })
+    </ul>
+    @using (Ajax.BeginForm("Report", "Transcribe", new AjaxOptions { OnSuccess = "ReportModalClose()" }, new { role = "form" }))
+    {
+        @Html.AntiForgeryToken()
+        <div class="modal fade" id="ReportModal" tabindex="-1" role="dialog" aria-labelledby="ReportModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title" id="ReportModalLabel">Report</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>Please specify any issues with this record e.g. spam.</p>
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.reportDetails, new { @class = "control-label" })
+                            @Html.TextAreaFor(m => m.reportDetails, new { @class = "form-control" })
+                            @Html.HiddenFor(m => m.RecordId)
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <input type="submit" class="btn btn-primary" value="Send" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+    <div class="modal fade" id="HelpModal" tabindex="-1" role="dialog" aria-labelledby="HelpModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="HelpModalLabel">Help</h4>
+                </div>
+                <div class="modal-body help-modal">
+                    <h4>Optical Character Recognition</h4>
+                    <p>The image has had <a href="http://en.wikipedia.org/wiki/Optical_character_recognition">Optical Character Recognition</a> to provide a base transcription. Feel free to delete, move or add to it.</p>
+                    <h4>Formatting</h4>
+                    <p>The transcription fields do not contain any formatting tools, there's no need to format for font, bolds or italics.</p>
+                    <h4>Spelling mistakes</h4>
+                    <p>Please do not correct spelling mistakes within the transcription, transcribe what you see.</p>
+                    <h4>Illegible text</h4>
+                    <p>If you can't make out a word use [illegible]. If you come across [illegible] in a transcription, please check to see if you can transcribe the word.</p>
+                    <h4>Transcribe in a way that makes sense</h4>
+                    <p>Use a left to right, up to down approach.</p>
+                    <h4>Indicate non-textual elements</h4>
+                    <p>You may use square brackets [ ] to describe an aspect of the record you see, but not able to transcribe.</p>
+                    <h4>Report</h4>
+                    <p>Report any issues with the image or transcription.</p>
+                    <h4>PDF</h4>
+                    <p>Generate a searchable PDF of the current page.</p>
+                    <h4>Favorite</h4>
+                    <p>If you are logged in you can favorite the transcription. Favorites are stored in your profile.</p>
+                    <h4>Comments</h4>
+                    <p>Use the comments section to discuss the page you are working on, including any transcription difficulties.</p>
+                    <h4>Activity</h4>
+                    <p>Shows all transcription activity.</p>
+                    <h4>In progress</h4>
+                    <p>Marks the transcription as in progress.</p>
+                    <h4>Complete</h4>
+                    <p>Marks the transcription as complete. The record will be locked until it is marked as in progress.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="image-side" class="col-lg-6 col-md-6 col-sm-6">
+    <div class="viewer">
+        <img src="/Content/_upload/@Model.image" class="zoom-object" alt="" />
+    </div>
+</div>
+<div id="text-side" class="col-lg-6 col-md-6 col-sm-6">
+    <div class="text-corrections">
+        <div class="status-layer" style="@Model.statusLayer">
+            <div class="status-layer-text">
+                <h2 class="text-danger text-center"><span class="white-bg">Complete</span></h2>
+                <div class="text-danger text-center">
+                    <p class="lead"><span class="white-bg">This transcription has been marked as complete.</span></p>
+                    <p><span class="white-bg">If changes are required you can unlock this record by putting it back In progress.</span></p>
+                </div>
+            </div>
+        </div>
+        @Html.Raw(Model.session)
+        <div id="transcription">
+            @Html.Action("VersionControl", "Transcribe", new { RecordId = @Model.RecordId })
+        </div>
+    </div>
+</div>
+<div class="clearfix"></div>
+@section Scripts {
+    @Scripts.Render("~/bundles/editable")
+    @Scripts.Render("~/bundles/transcribe")
+}
+<script type="text/javascript">
+
+    var intervalFunctions = [ActivityRefresh, CommentRefresh];
+    var intervalIndex = 0;
+
+    window.setInterval(function () {
+        intervalFunctions[intervalIndex++ % intervalFunctions.length]();
+    }, 2000);
+
+    function ActivityRefresh() {
+        $.ajax({
+            url: "/Transcribe/ActivityControl",
+            data: { "id": "@Model.RecordId" },
+            type: "POST",
+            cache: false,
+            success: function (data) {
+                $("#activity-group").html(data)
+            }
+        });
+    }
+
+    function CommentRefresh() {
+        $.ajax({
+            url: "/Transcribe/CommentControl",
+            data: { "id": "@Model.RecordId" },
+            type: "POST",
+            cache: false,
+            success: function (data) {
+                $("#comment-group").html(data)
+            }
+        });
+    }
+</script>

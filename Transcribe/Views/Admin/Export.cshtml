@@ -1,0 +1,55 @@
+﻿@model PagedList.IPagedList<Transcribe.Models.RecordModels>
+@using PagedList.Mvc;
+@{
+    ViewBag.Title = "Export";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().title)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().status)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().page)
+        </th>
+        <th>
+            Action
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.status)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.page)
+            </td>
+            <td>
+                @using (Html.BeginForm("ExportById", "Admin", FormMethod.Post))
+                {
+                    @Html.AntiForgeryToken()
+                    <input type="submit" class="btn btn-link" value="Export" />
+                    @Html.Hidden("RecordId",@item.RecordId)
+                }
+            </td>
+        </tr>
+    }
+</table>
+
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("Export", new { page }))
+
+<div>
+    @Html.ActionLink("Back to Index", "Index")
+</div>

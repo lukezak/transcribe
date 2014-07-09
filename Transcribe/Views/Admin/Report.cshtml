@@ -1,0 +1,45 @@
+﻿@model PagedList.IPagedList<Transcribe.Models.ReportModels>
+@using PagedList.Mvc;
+@{
+    ViewBag.Title = "Reports";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().RecordId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().report)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().commit)
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                <a href="/Transcribe/Index/@Html.DisplayFor(modelItem => item.RecordId)">@Html.DisplayFor(modelItem => item.RecordId)</a>
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.report)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.commit)
+            </td>
+        </tr>
+    }
+
+</table>
+
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("Report", new { page }))
+
+<div>
+    @Html.ActionLink("Back to Index", "Index")
+</div>

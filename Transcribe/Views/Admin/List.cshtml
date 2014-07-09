@@ -1,0 +1,100 @@
+﻿@model PagedList.IPagedList<Transcribe.Models.RecordModels>
+@using PagedList.Mvc;
+@{
+    ViewBag.Title = "List";
+}
+
+<h2>@ViewBag.Title</h2>
+
+@using (Html.BeginForm("List", "Admin", FormMethod.Get, new {@class = "form-inline list-form"}))
+{
+    <div class="form-group">
+        <label for="SearchString">Filter by title</label>
+        @Html.TextBox("SearchString", ViewBag.CurrentFilter as string, new { @class = "form-control" })
+        <input type="submit" class="btn btn-primary" value="Search" />
+    </div>
+}
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.ActionLink("Title", "List", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter })
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().startdate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().enddate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().difficulty)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().page)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().status)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().sysident)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().type)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().image)
+        </th>
+        <th>
+            @Html.ActionLink("Commit date", "List", new { sortOrder = ViewBag.DateSortParm, currentFilter = ViewBag.CurrentFilter })
+        </th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.title)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.startdate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.enddate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.difficulty)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.page)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.status)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.sysident)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.type)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.image)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.commit)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.RecordId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.RecordId })
+        </td>
+    </tr>
+}
+
+</table>
+
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("List",
+    new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+
+<div>
+    @Html.ActionLink("Back to Index", "Index")
+</div>

@@ -1,0 +1,54 @@
+﻿@model Transcribe.Models.ControlsViewModel
+<li>
+    <div class="dropdown">
+        <button id="commentBtn" data-toggle="dropdown" rel="tooltip" title="Comments" type="button" class="btn btn-default"><span class="glyphicon glyphicon-comment"></span> <span class="caret"></span></button>
+
+        <div class="dropdown-menu pull-right panel panel-default keep_open" role="menu" aria-labelledby="commentBtn">
+            <div class="panel-heading text-center">Comments</div>
+            <ul id="comment-group" class="list-group">
+
+                @Html.Action("CommentControl", "Transcribe", new { id = @Model.id })
+
+            </ul>
+
+            <div class="panel-footer">
+                @using (Ajax.BeginForm("Comment", "Transcribe", new AjaxOptions { UpdateTargetId = "comment-group", OnSuccess = "clearCommentInput()" }, new { @class = "form-inline", role = "form" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <div class="input-group">
+                        @Html.TextBoxFor(m => m.comment, new { @class = "form-control", placeholder = "Comment" })
+                        <span class="input-group-btn">
+                            @Html.ValidationMessageFor(m => m.comment)<input type="submit" class="btn btn-default" value="Submit" />
+                        </span>
+                        @Html.HiddenFor(m => m.id)
+                    </div>
+                }
+            </div>
+        </div>
+
+    </div>
+</li>
+<li>
+    <div class="dropdown">
+        <button id="activityBtn" data-toggle="dropdown" rel="tooltip" title="Activity" type="button" class="btn btn-default"><span class="glyphicon glyphicon-cog"></span> <span class="caret"></span></button>
+
+        <div class="dropdown-menu pull-right panel panel-default keep_open" role="menu" aria-labelledby="activityBtn">
+            <div class="panel-heading text-center">Activity</div>
+            <ul id="activity-group" class="list-group">
+
+                @Html.Action("ActivityControl", "Transcribe", new { id = @Model.id })
+
+            </ul>
+            <div class="panel-footer">
+                <a href="/Transcribe/Activity/@Model.id" class="btn btn-default btn-block">View all</a>
+            </div>
+        </div>
+
+    </div>
+</li>
+<li id="inprogress">
+    @Html.Action("InProgressControl", "Transcribe", new { id = @Model.id })
+</li>
+<li id="complete">
+    @Html.Action("CompleteControl", "Transcribe", new { id = @Model.id })
+</li>
